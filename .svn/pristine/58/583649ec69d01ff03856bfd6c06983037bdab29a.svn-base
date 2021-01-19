@@ -1,0 +1,35 @@
+package com.OrdreArchive.Controller;
+
+import com.OrdreArchive.Dao.OrdreArchiveRepository;
+import com.OrdreArchive.Entity.OrdreArchive;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@RestController
+@RestResource
+public class OrdreArchiveController {
+    @Autowired
+    private OrdreArchiveRepository ordreRepository;
+    @CrossOrigin("*")
+    @GetMapping("/ordres/{id}")
+    public OrdreArchive getOrdre(@PathVariable("id") final Integer id)
+    {
+        return  ordreRepository.findByOrdreid(id);
+    }
+    @CrossOrigin("*")
+    @GetMapping("/ordres")
+    public List<OrdreArchive> getOrdres()
+    {
+        return ordreRepository.findAll();
+    }
+
+    @CrossOrigin("*")
+    @PostMapping("/ordre")
+    public  OrdreArchive addordre (@RequestBody OrdreArchive ordre)
+    {
+
+        return ordreRepository.save(ordre);
+    }
+}

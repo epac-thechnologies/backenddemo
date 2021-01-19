@@ -1,0 +1,48 @@
+package com.OrdreArchive.Controller;
+
+import com.OrdreArchive.Dao.InvoiceRepository;
+import com.OrdreArchive.Dao.OrdreArchiveRepository;
+import com.OrdreArchive.Entity.Invoice;
+import com.OrdreArchive.Entity.OrdreArchive;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@RestController
+@RestResource
+public class InvoiceController {
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+    @Autowired
+    private OrdreArchiveRepository ordreArchiveRepository;
+    @CrossOrigin("*")
+    @PostMapping("/invoice")
+    public Invoice addInvoice (@RequestBody Invoice invoice)
+    {
+        double sum =0;
+        ArrayList<OrdreArchive>list=new ArrayList<>();
+        Collection<OrdreArchive>ordreArchives=invoice.getOrdreArchives();
+        for (OrdreArchive o:ordreArchives)
+        {
+            o.setStatus("INVOICED");
+            list.add(o);
+           sum =sum+(o.getPrice()*o.getProduced());
+           ordreArchiveRepository.save(o);
+        }
+        invoice.setOrdreArchives(list);
+       invoice.setSum(sum);
+        invoice.setType("INVOICE");
+        return invoiceRepository.save(invoice);
+    }
+    @CrossOrigin("*")
+    @GetMapping("/invoices")
+    public List<Invoice> getallInvoices()
+    {
+        return  invoiceRepository.findAll();
+    }
+
+}

@@ -1,0 +1,17 @@
+package com.OrdreArchive.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.OrdreArchive.Entity.OrdreArchive;
+
+import java.util.Collection;
+
+
+public interface OrdreArchiveRepository extends JpaRepository<OrdreArchive, Long>{
+
+    Collection<OrdreArchive> findByOrdreid(long ordreid);
+    Collection<OrdreArchive> findByOldOrdreid(Integer oldordreid);
+    Collection<OrdreArchive> findByIsbn(String isbn);
+    Collection<OrdreArchive> findByIsbnOrOrdreid(String isbn,Integer ordreid);
+    OrdreArchive findByPacking_slips_id(long packing);
+}

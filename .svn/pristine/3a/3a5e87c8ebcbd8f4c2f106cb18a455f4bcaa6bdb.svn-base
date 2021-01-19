@@ -1,0 +1,83 @@
+package com.OrdreArchive.Controller;
+
+import com.OrdreArchive.Dao.OrdreArchiveRepository;
+import com.OrdreArchive.Entity.Conftoken;
+import com.OrdreArchive.Entity.Ordre;
+import com.OrdreArchive.Entity.OrdreArchive;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collection;
+import java.util.List;
+@RestController
+@RestResource
+public class OrdreArchiveController {
+    @Autowired
+    private OrdreArchiveRepository ordreRepository;
+    @Autowired
+    RestTemplate restTemplate;
+    @CrossOrigin("*")
+    @GetMapping("/ordresByOrdreId/{id}")
+    public Collection<OrdreArchive> getByOrdreid(@PathVariable("id") final long id)
+    {
+        return  ordreRepository.findByOrdreid(id);
+    }
+    @CrossOrigin("*")
+    @GetMapping("/ordresByOldOrdreId/{id}")
+    public Collection<OrdreArchive> getByOldOrdreid(@PathVariable("id") final Integer id)
+    {
+        return ordreRepository.findByOldOrdreid(id);
+    }
+    @CrossOrigin("*")
+    @GetMapping("/ordresByIsbn/{id}")
+    public Collection<OrdreArchive> getByIsbn(@PathVariable("id") final String isbn) {
+        return ordreRepository.findByIsbn(isbn);
+    }
+    @CrossOrigin("*")
+    @PostMapping("/ordre")
+    public  OrdreArchive addordre (@RequestBody OrdreArchive ordre)
+    {
+
+        return ordreRepository.save(ordre);
+    }
+    @CrossOrigin("*")
+    @PostMapping("/annulerordres/{id}")
+    public  void annulerordre (@PathVariable("id") final long id,@RequestBody OrdreArchive ordre)
+    {
+  ordre.setStatus("CANCLED");
+   ordreRepository.save(ordre);
+
+        HttpHeaders headers1 = new HttpHeaders();
+        headers1.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers1.add("Authorization","Basic d2ViOnNlY3JldA==");
+        ResponseEntity<Conftoken> response3 = restTemplate.exchange("http://security.pacet.mx/token?username=bilelm@epac.com&password=admin&grant_type=password", HttpMethod.POST, new HttpEntity<Object>(headers1),Conftoken.class);
+
+        Conftoken conftoken= (Conftoken)(response3.getBody());
+        //    try{
+        String url = "http://service.pacet.mx/orders/updateStatus/"+ordre.getOldOrdreid()+"/ONPROD";
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add("Authorization", "Bearer "+ conftoken.getAccess_token());
+        headers.add("Accept", "application/json");
+        restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<Object>(headers),long.class);
+
+        HttpHeaders header = new HttpHeaders();
+        header.add("Accept", "application/json");
+        ResponseEntity<Collection<Ordre>> response2 = restTemplate.exchange("http://192.168.75.215:8013/OrdreService/findByisbn/"+ordre.getIsbn(), HttpMethod.GET, new HttpEntity<Object>(header), new ParameterizedTypeReference<Collection<Ordre>>() {
+        });
+    }
+
+}
+@org.springframework.context.annotation.Configuration
+class Configuration {
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+
+    }
+}

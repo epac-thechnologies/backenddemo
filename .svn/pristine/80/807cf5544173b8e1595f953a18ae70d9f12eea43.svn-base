@@ -1,0 +1,11 @@
+package com.OrdreArchive.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.OrdreArchive.Entity.OrdreArchive;
+
+
+public interface OrdreArchiveRepository extends JpaRepository<OrdreArchive, Long>{
+
+    OrdreArchive findByOrdreid(Integer id);
+}

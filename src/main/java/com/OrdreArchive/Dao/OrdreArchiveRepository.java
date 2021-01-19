@@ -1,0 +1,18 @@
+package com.OrdreArchive.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.OrdreArchive.Entity.OrdreArchive;
+
+import java.util.Collection;
+import java.util.Date;
+
+
+public interface OrdreArchiveRepository extends JpaRepository<OrdreArchive, Long>{
+
+    Collection<OrdreArchive> findByOrdreid(long ordreid);
+    Collection<OrdreArchive> findByOldOrdreid(Integer oldordreid);
+    Collection<OrdreArchive> findByIsbn(String isbn);
+    Collection<OrdreArchive> findByIsbnOrOrdreid(String isbn,Integer ordreid);
+    Collection<OrdreArchive> findByShipDateIsBetweenAndStatusAndClientId(Date dueDate1,Date dueDate2,String status,String clientid);
+}

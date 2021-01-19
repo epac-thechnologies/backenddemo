@@ -1,0 +1,118 @@
+package com.OrdreArchive.Entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+
+public class OrdreArchive implements Serializable{
+	
+	@Id
+    private long ordreid;
+    private String orderNum;
+    private String status;
+    private Date dueDate;
+    private Integer quantity;
+    private Integer quantityMax;
+    private Integer quantityMin;
+    private Integer produced;
+    private Integer oldOrdreid;
+    private String packagingType;
+   private  String clientid;
+   private Date dateComplete;
+@Override
+public String toString() {
+	return "OrdreArchive [ordreid=" + ordreid + ", orderNum=" + orderNum + ", status=" + status + ", dueDate=" + dueDate
+			+ ", quantity=" + quantity + ", quantityMax=" + quantityMax + ", quantityMin=" + quantityMin + ", produced="
+			+ produced + ", oldOrdreid=" + oldOrdreid + ", packagingType=" + packagingType + ", clientid=" + clientid
+			+ ", dateComplete=" + dateComplete + "]";
+}
+public long getOrdreid() {
+	return ordreid;
+}
+public void setOrdreid(long ordreid) {
+	this.ordreid = ordreid;
+}
+public String getOrderNum() {
+	return orderNum;
+}
+public void setOrderNum(String orderNum) {
+	this.orderNum = orderNum;
+}
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
+}
+public Date getDueDate() {
+	return dueDate;
+}
+public void setDueDate(Date dueDate) {
+	this.dueDate = dueDate;
+}
+public Integer getQuantity() {
+	return quantity;
+}
+public void setQuantity(Integer quantity) {
+	this.quantity = quantity;
+}
+public Integer getQuantityMax() {
+	return quantityMax;
+}
+public void setQuantityMax(Integer quantityMax) {
+	this.quantityMax = quantityMax;
+}
+public Integer getQuantityMin() {
+	return quantityMin;
+}
+public void setQuantityMin(Integer quantityMin) {
+	this.quantityMin = quantityMin;
+}
+public Integer getProduced() {
+	return produced;
+}
+public void setProduced(Integer produced) {
+	this.produced = produced;
+}
+public Integer getOldOrdreid() {
+	return oldOrdreid;
+}
+public void setOldOrdreid(Integer oldOrdreid) {
+	this.oldOrdreid = oldOrdreid;
+}
+public String getPackagingType() {
+	return packagingType;
+}
+public void setPackagingType(String packagingType) {
+	this.packagingType = packagingType;
+}
+public String getClientid() {
+	return clientid;
+}
+public void setClientid(String clientid) {
+	this.clientid = clientid;
+}
+public Date getDateComplete() {
+	return dateComplete;
+}
+public void setDateComplete(Date dateComplete) {
+	this.dateComplete = dateComplete;
+}
+   
+
+}
