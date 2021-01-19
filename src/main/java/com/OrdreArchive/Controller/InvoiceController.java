@@ -85,7 +85,7 @@ public class InvoiceController {
         Collection<OrdreArchive>o=i.getOrdreArchives();
         for (OrdreArchive or:o)
         {
-            or.setStatus("DELIVRED");
+            or.setStatus("DELIVERED");
             ordreArchiveRepository.save(or);
         }
     return  i;
