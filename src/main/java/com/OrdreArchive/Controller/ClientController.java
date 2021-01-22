@@ -22,10 +22,16 @@ public class ClientController {
         return clientRepository.findAll();
     }
     @CrossOrigin("*")
-    @GetMapping("/clients/{clienId}")
-    public Client getClient(@PathVariable("clientId") String clienId)
+    @GetMapping("/clients/{clientId}")
+    public Client getClient(@PathVariable("clientId") String clientId)
     {
-        return clientRepository.findClientByClientId(clienId);
+        return clientRepository.findClientByClientId(clientId);
+    }
+    @CrossOrigin("*")
+    @GetMapping ("/deleteClient/{clientId}")
+    public void deleteClient(@PathVariable("clientId") String clientId)
+    {
+         clientRepository.deleteById(clientId);
     }
     @CrossOrigin("*")
     @PostMapping("/addClient")
