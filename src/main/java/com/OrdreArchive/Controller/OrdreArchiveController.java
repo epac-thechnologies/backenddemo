@@ -70,13 +70,6 @@ public class OrdreArchiveController {
         Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(d2);
         return ordreRepository.findByShipDateIsBetweenAndStatusAndClientId(date1,date2,"DELIVERED",clientid);
     }
-    @CrossOrigin("*")
-    @GetMapping("/clients")
-    public Collection<Client> getClients()
-    {
-        return  clientRepository.findAll();
-    }
-
 
 }
 @org.springframework.context.annotation.Configuration

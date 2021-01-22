@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-
+@RestController
 public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
@@ -23,15 +23,16 @@ public class ClientController {
     }
     @CrossOrigin("*")
     @GetMapping("/clients/{clientId}")
-    public Client getClient(@PathVariable("clientId") String clientId)
+    public Client getClient(@PathVariable("clientId") long clientId)
     {
         return clientRepository.findClientByClientId(clientId);
     }
     @CrossOrigin("*")
     @GetMapping ("/deleteClient/{clientId}")
-    public void deleteClient(@PathVariable("clientId") String clientId)
+    public void deleteClient(@PathVariable("clientId") long clientId)
     {
-         clientRepository.deleteById(clientId);
+        Client c=clientRepository.findClientByClientId(clientId) ;
+        clientRepository.delete(c);
     }
     @CrossOrigin("*")
     @PostMapping("/addClient")
